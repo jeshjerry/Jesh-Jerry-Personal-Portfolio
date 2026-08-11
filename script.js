@@ -52,4 +52,65 @@ document.addEventListener('DOMContentLoaded', () => {
             navbar.style.boxShadow = 'none';
         }
     });
+
+    // Contact Form Submission Handler
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const nameInput = document.getElementById('contact-name');
+            const emailInput = document.getElementById('contact-email');
+            const messageInput = document.getElementById('contact-message');
+            
+            // Simple validation
+            if (!nameInput.value.trim() || !emailInput.value.trim() || !messageInput.value.trim()) {
+                showToast('Please fill in all fields.', 'error');
+                return;
+            }
+            
+            // Basic email validation regex
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailInput.value.trim())) {
+                showToast('Please enter a valid email address.', 'error');
+                return;
+            }
+            
+            // Success response
+            showToast('Thank you! Your message has been sent successfully.', 'success');
+            contactForm.reset();
+        });
+    }
+
+    function showToast(message, type = 'success') {
+        // Remove existing toast if any
+        const existingToast = document.querySelector('.toast-notification');
+        if (existingToast) {
+            existingToast.remove();
+        }
+
+        const toast = document.createElement('div');
+        toast.className = `toast-notification toast-${type}`;
+        
+        const icon = type === 'success' ? 'check_circle' : 'error';
+        toast.innerHTML = `
+            <span class="material-symbols-outlined">${icon}</span>
+            <p>${message}</p>
+        `;
+        
+        document.body.appendChild(toast);
+        
+        // Trigger show class after a small timeout for transition
+        setTimeout(() => {
+            toast.classList.add('show');
+        }, 10);
+        
+        // Auto remove toast
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => {
+                toast.remove();
+            }, 300);
+        }, 4000);
+    }
 });

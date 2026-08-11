@@ -500,27 +500,52 @@ footer {
         font-size: 1.5rem;
     }
 }
-
-/* Under Construction Banner */
-.construction-banner {
+/* Toast Notifications */
+.toast-notification {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: var(--gradient-1);
-    color: white;
-    text-align: center;
-    padding: 0.8rem 1rem;
-    z-index: 2000;
+    top: 20px;
+    right: 20px;
+    background: rgba(30, 41, 59, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
     display: flex;
-    justify-content: center;
     align-items: center;
     gap: 0.8rem;
-    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.3);
-    font-size: 0.95rem;
-    font-weight: 600;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    transform: translateX(120%);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.construction-banner span {
-    font-size: 1.3rem;
+.toast-notification.show {
+    transform: translateX(0);
+}
+
+.toast-notification p {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.toast-notification span {
+    font-size: 1.5rem;
+}
+
+.toast-success span {
+    color: #10b981;
+}
+
+.toast-success {
+    border-left: 4px solid #10b981;
+}
+
+.toast-error span {
+    color: #ef4444;
+}
+
+.toast-error {
+    border-left: 4px solid #ef4444;
 }
