@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const nameInput = document.getElementById('contact-name');
             const emailInput = document.getElementById('contact-email');
             const messageInput = document.getElementById('contact-message');
+            const submitBtn = contactForm.querySelector('.submit-btn');
             
             // Simple validation
             if (!nameInput.value.trim() || !emailInput.value.trim() || !messageInput.value.trim()) {
@@ -76,9 +77,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
-            // Success response
-            showToast('Thank you! Your message has been sent successfully.', 'success');
-            contactForm.reset();
+            // Disable button and show sending state
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            
+            // Prepare form data
+            const formData = new URLSearchParams(new FormData(contactForm));
+            
+            // Submit form to Google Forms
+            fetch(contactForm.action, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: formData
+            })
+            .then(() => {
+                showToast('Thank you! Your message has been sent successfully.', 'success');
+                contactForm.reset();
+            })
+            .catch((error) => {
+                console.error('Error submitting form:', error);
+                showToast('Something went wrong. Please try again.', 'error');
+            })
+            .finally(() => {
+                // Re-enable button and restore original text
+                submitBtn.textContent = originalBtnText;
+                submitBtn.disabled = false;
+            });
         });
     }
 
